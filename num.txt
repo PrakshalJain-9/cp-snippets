@@ -1,0 +1,23 @@
+{
+	"Modular Arithmetic and Prime Utilities": {
+		"prefix": "numTheory",
+		"body": [
+			"// clang-format off",
+			"// If your code ever gives TLE due to unknown reason then try removing that extra 2 modulos in the mod_mul function when you multiply the values and use int instead of 128_t thing.....!!",
+			"__int128_t mod_mul(__int128_t a, __int128_t b, __int128_t mod = MOD) { return ((a % mod) * (b % mod)) % mod; }",
+			"int mod_exponentiation(int base, int power, int mod = MOD) { int ans = 1; while (power) { if (power % 2) { ans = mod_mul(ans, base, mod); power--; } else { base = mod_mul(base, base, mod); power /= 2; } } return ans; }",
+			"int mod_inverse(int a, int mod = MOD) { return mod_exponentiation(a, mod - 2, mod); }",
+			"bool isPrime(int n) { if (n <= 1) return false; if (n <= 3) return true; if (n % 2 == 0 || n % 3 == 0) return false; for (int i = 5; i * i <= n; i += 6) { if (n % i == 0 || n % (i + 2) == 0) return false; } return true; }",
+			"vector<int> spfarr(int n) { int maxi = n; vector<int> spf(maxi, 0); for (int i = 2; i <= maxi; i++) { if (spf[i] != 0) continue; spf[i] = i; for (int j = i * i; j <= maxi; j += i) { if (spf[j] == 0) spf[j] = i; } } return spf; }",
+			"vi mod_factorial(int n, int mod = MOD) { vi tmp(n + 1, 1); for (int i = 2; i <= n; i++) { tmp[i] = mod_mul(tmp[i - 1], i, mod); } return tmp; }",
+			"vi mod_inverse_factorial(int n, int mod = MOD) { vi fact = mod_factorial(n, mod); vi inv_fact(n + 1, 1); inv_fact[n] = mod_inverse(fact[n], mod); for (int i = n - 1; i >= 1; i--) { inv_fact[i] = mod_mul(inv_fact[i + 1], i + 1, mod); } return inv_fact; }",
+			"int mod_division(int a, int b, int mod = MOD) { return mod_mul(a, mod_inverse(b, mod), mod); }",
+			"int mod_ncr(int n, int r, int mod = MOD) { if (r < 0 || r > n) return 0; if (r == 0 || r == n) return 1; r = min(r, n - r); vector<int> fact = mod_factorial(n, mod); int numerator = fact[n]; int denominator = mod_mul(fact[r], fact[n - r], mod); return mod_mul(numerator, mod_inverse(denominator, mod), mod); }",
+			"int prob(int a,int b,int mod = 1000000007){ return mod_mul(a, mod_inverse(b, mod), mod); }",
+			"// clang-format on",
+			"",
+			"$2"
+		],
+		"description": "Compact modular arithmetic and prime utilities for C++"
+	}
+}

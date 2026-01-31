@@ -1,41 +1,58 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Compile and run",
-      "type": "shell",
-      "command": "bash",
-      "args": [
-        // Argument 1: The script to run
-        "${workspaceFolder}/run_and_compile.sh",
-        // Argument 2: The current file open in the editor (${file})
-        "${file}",
-        // Argument 3: The path to the workspace folder
-        "${workspaceFolder}"
-      ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": {
-        "owner": "cpp",
-        "fileLocation": [
-          "relative",
-          "${workspaceFolder}"
-        ],
-        "pattern": {
-          "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-          "file": 1,
-          "line": 2,
-          "column": 3,
-          "severity": 4,
-          "message": 5
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile and run",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/run_and_compile.sh",
+                "${file}",
+                "${workspaceFolder}"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "detail": "Runs the custom compile and run script. The default build task."
+        },
+        {
+            "label": "Build C++ file",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Compiles the file for debugging. This is the preLaunchTask for the debugger."
         }
-      }
-    }
-  ]
+    ]
 }

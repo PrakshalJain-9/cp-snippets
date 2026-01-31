@@ -33,11 +33,11 @@ fi
 
 # --- Step 2: Set Limits and Run the Program ---
 ulimit -c 0     # Disable core dumps
-ulimit -f 20000 # Set file size limit to ~20MB
+ulimit -f 200000 # Set file size limit to ~20MB
 
 # Run the compiled program.
 # Redirect ONLY the program's standard error (cerr) to error.txt.
-timeout 5s "$EXECUTABLE" < "$INPUT_FILE" > "$OUTPUT_FILE" 2> "$ERROR_FILE"
+timeout 50s "$EXECUTABLE" < "$INPUT_FILE" > "$OUTPUT_FILE" 2> "$ERROR_FILE"
 EXIT_CODE=$? # Capture the exit code of the 'timeout' command.
 
 # --- Step 3: Analyze the Exit Code and Report Specific Errors ---
@@ -70,4 +70,3 @@ fi
 # --- Step 4: Clean Up Temporary Files ---
 # This step now runs for successful executions or any non-fatal runtime error.
 rm "$EXECUTABLE" "$TEST_CPP_FILE"
-

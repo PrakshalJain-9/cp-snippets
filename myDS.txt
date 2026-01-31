@@ -1,0 +1,21 @@
+{
+	"Advanced Data structures": {
+		"scope": "cpp",
+		"prefix": "myDS",
+		"body": [
+			"// clang-format off",
+			"class sparseTable { vector<vector<int>> lookUp; vi arr; function<int(int,int)> func; int log2_floor(unsigned int i) { return i ? __builtin_clzll(1) - __builtin_clzll(i) : -1; }",
+			"public: sparseTable(vi arr, function<int(int,int)> func) { this->arr = arr; this->func = func; int maxPower = log2_floor(arr.size()); lookUp.resize(maxPower + 1, vector<int>(arr.size())); for (int i = 0; i < arr.size(); i++) lookUp[0][i] = arr[i]; for (int i = 1; i <= maxPower; i++) for (int j = 0; j <= arr.size() - (1ll << i); j++) lookUp[i][j] = func(lookUp[i-1][j], lookUp[i-1][j + (1ll << (i-1))]); }",
+			"int rangeMinQuery(int l, int r) { if (l == r) return arr[l]; int size = r - l + 1; int maxPower = log2_floor(size); return func(lookUp[maxPower][l], lookUp[maxPower][r - (1ll << maxPower) + 1]); }",
+			"int query(int l, int r) { int ans = arr[l]; int K = log2_floor(r - l + 1); for (int i = K; i >= 0; i--) { if ((1ll << i) <= (r - l + 1)) { ans = func(ans, lookUp[i][l]); l += (1ll << i); } } return ans; } };",
+			"",
+			"class DSU { private: vector<int> parent, rank, size; public: DSU(int n){ parent.resize(n + 1); rank.resize(n + 1); size.resize(n + 1, 1); for (int i = 0; i <= n; i++){ parent[i] = i; }} public: int findUltimateParent(int node){ if (parent[node] == node) return node; return parent[node] = findUltimateParent(parent[node]);}",
+			"public: void unionByRank(int u, int v){ int ultiParentU = findUltimateParent(u); int ultiParentV = findUltimateParent(v); if (ultiParentU == ultiParentV) return; if (rank[ultiParentU] == rank[ultiParentV]){ rank[ultiParentU]++; parent[ultiParentV] = ultiParentU;}else if (rank[ultiParentU] > rank[ultiParentV]){ parent[ultiParentV] = ultiParentU;}",
+			"else{ parent[ultiParentU] = ultiParentV; }} public:void unionBySize(int u, int v){ int ultiParentU = findUltimateParent(u); int ultiParentV = findUltimateParent(v);if (ultiParentU == ultiParentV) return; if (size[ultiParentU] > size[ultiParentV]){parent[ultiParentV] = ultiParentU; size[ultiParentU] += size[ultiParentV];} else{parent[ultiParentU] = ultiParentV; size[ultiParentV] += size[ultiParentU];}}};",
+			"// clang-format on",
+			"",
+			"$2"
+		],
+		"description": "Advanced DataStructures"
+	}
+}
